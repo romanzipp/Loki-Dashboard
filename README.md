@@ -4,10 +4,18 @@ An alternative dashboard frontend for [Grafana Loki](https://grafana.com/oss/lok
 
 ## Setup
 
+The project is built as a [Docker container](https://github.com/romanzipp/Loki-Dashboard/pkgs/container/loki-dashboard) via the GitHub `ghcr.io` container registry.
+
 ### Docker
 
+The default port `3000` will be expoed.
+
 ```
-TODO
+docker pull ghcr.io/romanzipp/loki-dashboard:latest
+```
+
+```
+docker run -e "LOKI_ENTRYPOINT=http://localhost:3100" -p 3000:3000 romanzipp/loki-dashboard:latest
 ```
 
 ### Nomad (with Docker)
