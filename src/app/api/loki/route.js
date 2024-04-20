@@ -1,20 +1,20 @@
-export const dynamic = 'force-dynamic'; // defaults to auto
+import { headers } from 'next/headers';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
+    const headersList = headers();
     const { searchParams: query } = new URL(request.url);
 
-    if (!query.has('_path')) {
+    if (!headersList.has('X-Loki-Path')) {
         return Response.json({
-            error: 'missing `_path` query param',
+            error: 'missing `X-Loki-Path` header',
         });
     }
 
-    const lokiPath = query.get('_path');
+    const lokiPath = headersList.get('X-Loki-Path');
 
-    const forwardQuery = query;
-    forwardQuery.delete('_path');
-
-    const lokiUrl = `${process.env.LOKI_ENTRYPOINT}/loki/api/v1/${lokiPath}?${new URLSearchParams(forwardQuery)}`;
+    const lokiUrl = `${process.env.LOKI_ENTRYPOINT}/loki/api/v1/${lokiPath}?${new URLSearchParams(query)}`;
 
     try {
         const lokiResponse = await fetch(lokiUrl);
