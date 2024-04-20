@@ -1,6 +1,6 @@
 # Loki Dashboard
 
-An alternative dashboard frontend for [Grafana Loki](https://grafana.com/oss/loki/).
+An alternative **Dashboard** Frontend and **Logs Browser** for [Grafana Loki](https://grafana.com/oss/loki/).
 
 ## Setup
 
@@ -26,7 +26,7 @@ TODO
 
 ## Configuration
 
-####  `LOKI_ENTRYPOINT` (default: `http://localhost:3100`)
+#### `LOKI_ENTRYPOINT` (default: `http://localhost:3100`)
 
 The Loki instance base url.
 
