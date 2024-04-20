@@ -16,6 +16,12 @@ TODO
 TODO
 ```
 
+## Configuration
+
+####  `LOKI_ENTRYPOINT` (default: `http://localhost:3100`)
+
+The Loki instance base url.
+
 ## License
 
 [MIT License](LICENSE.md)
