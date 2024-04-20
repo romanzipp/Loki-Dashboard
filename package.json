@@ -10,6 +10,7 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.29.2",
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18"
