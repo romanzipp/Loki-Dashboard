@@ -1,6 +1,6 @@
-# Loki Frontend
+# Loki Dashboard
 
-An alternative frontend for [Grafana Loki](https://grafana.com/oss/loki/).
+An alternative dashboard frontend for [Grafana Loki](https://grafana.com/oss/loki/).
 
 ## Setup
 

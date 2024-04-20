@@ -10,7 +10,7 @@ export default function StartLayout({ children }) {
             <div>
                 <nav className="bg-[#23232A] p-2 text-white">
                     <div className="font-semibold">
-                        Loki Frontend
+                        Loki Dashboard
                     </div>
                 </nav>
                 <main>

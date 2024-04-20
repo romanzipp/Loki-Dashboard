@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
     title: 'Loki',
-    description: 'Grafana Loki Frontend',
+    description: 'Grafana Loki Dashboard',
 };
 
 export default function RootLayout({ children }) {

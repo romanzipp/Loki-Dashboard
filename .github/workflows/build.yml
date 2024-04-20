@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ghcr.io/romanzipp/loki-frontend
+          images: ghcr.io/romanzipp/loki-dashboard
           github-token: ${{ github.token }}
           tags: |
             type=semver,pattern={{version}}
