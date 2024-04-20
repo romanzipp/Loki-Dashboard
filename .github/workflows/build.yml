@@ -1,5 +1,8 @@
 name: Build
 
+env:
+  IMAGE_NAME: loki-dashboard
+
 on:
   push:
     tags: [ "*" ]
@@ -25,8 +28,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ghcr.io/romanzipp/loki-dashboard
-          github-token: ${{ github.token }}
+          images: ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
