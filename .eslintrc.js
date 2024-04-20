@@ -21,6 +21,7 @@ module.exports = {
         'jsx-a11y/no-static-element-interactions': 'off',
         'max-len': 'off',
         'no-console': ['warn'],
+        'react/require-default-props': 'off',
         'react/button-has-type': 'warn',
         'react/jsx-filename-extension': 'off',
         'react/jsx-indent': ['error', 4],

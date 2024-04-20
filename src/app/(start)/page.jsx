@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useMemo, Fragment } from 'react';
+import Result from '@/components/Result';
 
 export default function Home() {
     const query = {
@@ -16,11 +18,13 @@ export default function Home() {
         }).then((res) => res.json()),
     });
 
-    console.log(data);
-
     return (
-        <main>
-            loki frontend
-        </main>
+        <div className="p-4">
+            {data?.data?.result?.length > 0 && data.data.result.map((result) => (
+                <Fragment key={JSON.stringify(result.stream)}>
+                    <Result result={result} />
+                </Fragment>
+            ))}
+        </div>
     );
 }
