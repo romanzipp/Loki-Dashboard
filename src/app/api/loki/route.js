@@ -23,7 +23,8 @@ export async function GET(request) {
 
         return Response.json(lokiData);
     } catch (err) {
-        console.log(err);
+        // eslint-disable-next-line no-console
+        console.error(err);
 
         return Response.json({
             error: err.message,

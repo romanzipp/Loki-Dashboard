@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, Fragment } from 'react';
+import { Fragment } from 'react';
 import Result from '@/components/Result';
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
         query: '{host=~".+"}',
     };
 
-    const { data, error } = useQuery({
+    const { data } = useQuery({
         queryKey: ['loki', query],
         queryFn: async () => fetch(`/api/loki?${new URLSearchParams(query)}`, {
             headers: {
