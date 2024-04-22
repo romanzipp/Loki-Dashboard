@@ -1,11 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, Suspense } from 'react';
 import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
 
-export default function Home() {
+function Component() {
     const { selectedLabels, filterValues } = useLabels();
 
     const query = useMemo(() => {
@@ -60,5 +60,13 @@ export default function Home() {
                 </Fragment>
             ))}
         </div>
+    );
+}
+
+export default function Home() {
+    return (
+        <Suspense>
+            <Component />
+        </Suspense>
     );
 }
