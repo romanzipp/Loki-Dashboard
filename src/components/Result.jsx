@@ -59,16 +59,16 @@ const exceptionKey = 'exception';
 const internalRowKeys = ['datetime', 'extra', 'level', 'level_name', 'message'];
 
 const labelColors = [
-    { bg: 'bg-teal-500/10', border: 'border-teal-500/40', text: 'text-teal-700/80' },
-    { bg: 'bg-sky-500/10', border: 'border-sky-500/40', text: 'text-sky-700/80' },
-    { bg: 'bg-indigo-500/10', border: 'border-indigo-500/40', text: 'text-indigo-700/80' },
-    { bg: 'bg-purple-500/10', border: 'border-purple-500/40', text: 'text-purple-700/80' },
-    { bg: 'bg-fuchsia-500/10', border: 'border-fuchsia-500/40', text: 'text-fuchsia-700/80' },
-    { bg: 'bg-rose-500/10', border: 'border-rose-500/40', text: 'text-rose-700/80' },
-    { bg: 'bg-red-500/10', border: 'border-red-500/40', text: 'text-red-700/80' },
-    { bg: 'bg-amber-500/10', border: 'border-amber-500/40', text: 'text-amber-700/80' },
-    { bg: 'bg-lime-500/10', border: 'border-lime-500/40', text: 'text-lime-700/80' },
-    { bg: 'bg-emerald-500/10', border: 'border-emerald-500/40', text: 'text-emerald-700/80' },
+    { bg: 'bg-teal-500/10 dark:bg-teal-700/40', border: 'border-teal-500/40 border-teal-500/60', text: 'text-teal-700/80 dark:text-teal-500/90' },
+    { bg: 'bg-sky-500/10 dark:bg-sky-700/40', border: 'border-sky-500/40 border-sky-500/60', text: 'text-sky-700/80 dark:text-sky-500/90' },
+    { bg: 'bg-indigo-500/10 dark:bg-indigo-700/40', border: 'border-indigo-500/40 border-indigo-500/60', text: 'text-indigo-700/80 dark:text-indigo-500/90' },
+    { bg: 'bg-purple-500/10 dark:bg-purple-700/40', border: 'border-purple-500/40 border-purple-500/60', text: 'text-purple-700/80 dark:text-purple-500/90' },
+    { bg: 'bg-fuchsia-500/10 dark:bg-fuchsia-700/40', border: 'border-fuchsia-500/40 border-fuchsia-500/60', text: 'text-fuchsia-700/80 dark:text-fuchsia-500/90' },
+    { bg: 'bg-rose-500/10 dark:bg-rose-700/40', border: 'border-rose-500/40 border-rose-500/60', text: 'text-rose-700/80 dark:text-rose-500/90' },
+    { bg: 'bg-red-500/10 dark:bg-red-700/40', border: 'border-red-500/40 border-red-500/60', text: 'text-red-700/80 dark:text-red-500/90' },
+    { bg: 'bg-amber-500/10 dark:bg-amber-700/40', border: 'border-amber-500/40 border-amber-500/60', text: 'text-amber-700/80 dark:text-amber-500/90' },
+    { bg: 'bg-lime-500/10 dark:bg-lime-700/40', border: 'border-lime-500/40 border-lime-500/60', text: 'text-lime-700/80 dark:text-lime-500/90' },
+    { bg: 'bg-emerald-500/10 dark:bg-emerald-700/40', border: 'border-emerald-500/40 border-emerald-500/60', text: 'text-emerald-700/80 dark:text-emerald-500/90' },
 ];
 
 function Result({ rows }) {
@@ -108,7 +108,7 @@ function Result({ rows }) {
 
     return (
         <table className="w-full">
-            <thead className="text-sm uppercase font-medium bg-gray-100">
+            <thead className="text-sm uppercase font-medium bg-gray-100 dark:bg-gray-800">
                 <tr>
                     <Th>Timestamp</Th>
                     <Th>Level</Th>

@@ -51,7 +51,7 @@ function Header() {
     })), [labels, labelValues, selectedLabels]);
 
     return (
-        <nav className="bg-[#23232A] p-2 text-white items-center flex gap-4">
+        <nav className="bg-gray-800 p-2 text-white items-center flex gap-4">
             <div className="font-semibold">
                 Loki Dashboard
             </div>

@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -15,6 +17,9 @@ module.exports = {
             },
         },
         extend: {
+            colors: {
+                gray: colors.neutral,
+            },
             keyframes: {
                 'accordion-down': {
                     from: { height: '0' },

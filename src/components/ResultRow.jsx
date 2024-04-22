@@ -43,7 +43,7 @@ function ResultRow({ row }) {
             onClick={(e) => onExpand(e)}
             className={classNames(
                 row.hasBackground && [row.classNameMap.bgClassName, 'text-white'],
-                expanded && 'bg-gray-100',
+                expanded && 'bg-gray-100 dark:bg-gray-800',
                 'group cursor-pointer',
             )}
         >
@@ -95,7 +95,7 @@ function ResultRow({ row }) {
                         {expandedLabels.map((label) => (
                             <pre
                                 key={label.key}
-                                className={`relative mb-2 border-l-4 pl-2 border-red-400 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
+                                className={`relative mb-2 border-l-4 pl-2 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
                             >
                                 <div className={`left-0 top-[50%] absolute pr-3 -translate-x-full translate-y-full ${label.colorClassName.text}`}>
                                     {label.key}

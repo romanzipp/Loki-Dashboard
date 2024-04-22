@@ -60,7 +60,7 @@ function TdComp({
             comp="td"
             title={title}
             collapse={collapse}
-            className={classNames(className, 'group-hover:bg-gray-100')}
+            className={classNames(className, 'group-hover:bg-gray-100 dark:group-hover:bg-gray-800')}
         >
             {children}
         </TableCol>
