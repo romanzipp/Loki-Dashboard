@@ -18,3 +18,5 @@ export default function StartLayout({ children }) {
         </QueryClientProvider>
     );
 }
+
+export const dynamic = 'force-dynamic';

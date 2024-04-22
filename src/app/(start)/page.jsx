@@ -1,5 +1,3 @@
-'use client';
-
 import Components from '@/app/(start)/components';
 
 export default function Home() {
