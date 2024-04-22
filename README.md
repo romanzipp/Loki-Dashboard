@@ -2,6 +2,16 @@
 
 An alternative **Dashboard** Frontend and **Logs Browser** for [Grafana Loki](https://grafana.com/oss/loki/).
 
+![](art/screenshot.png)
+
+### Features
+
+- See all ingested into Loki
+- Automatic fetching of labels & handy filtering
+- Store current filter state in URL, set bookmarks for dashboards
+- Parsing of exceptions & additonal data
+- Cusomtizable UI
+
 ## Setup
 
 The project is built as a [Docker container](https://github.com/romanzipp/Loki-Dashboard/pkgs/container/loki-dashboard) via the GitHub `ghcr.io` container registry.
