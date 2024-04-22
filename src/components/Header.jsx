@@ -1,13 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Fragment } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useShallow } from 'zustand/react/shallow';
-import { useStore } from '@/store';
 import LabelDropdown from '@/components/LabelDropdown';
+import useLabels from '@/hooks/useLabels';
 
 function Header() {
-    const [selectedLabels, selectLabel] = useStore(
-        useShallow((state) => [state.selectedLabels, state.selectLabel]),
-    );
+    const { selectedLabels, selectLabel } = useLabels();
 
     const { data: labels } = useQuery({
         queryKey: ['loki', 'labels'],
@@ -43,8 +40,6 @@ function Header() {
         selectLabel(label, value);
     }
 
-    console.log(selectedLabels);
-
     const computedLabels = useMemo(() => labels?.map((label) => ({
         name: label,
         values: labelValues?.find((lv) => lv.label === label)?.values || [],
@@ -58,10 +53,12 @@ function Header() {
             </div>
             <div className="flex gap-2 text-xs items-center">
                 {computedLabels?.map((label) => (
-                    <LabelDropdown
-                        label={label}
-                        onSelect={onSelect}
-                    />
+                    <Fragment key={label.name}>
+                        <LabelDropdown
+                            label={label}
+                            onSelect={onSelect}
+                        />
+                    </Fragment>
                 ))}
             </div>
         </nav>
