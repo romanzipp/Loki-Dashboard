@@ -47,7 +47,7 @@ function LabelDropdown({
                                 key={value}
                                 value={value}
                                 onSelect={(currentValue) => {
-                                    onSelect(name, currentValue);
+                                    onSelect(currentValue);
                                     setOpen(false);
                                 }}
                             >

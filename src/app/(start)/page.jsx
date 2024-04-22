@@ -15,14 +15,20 @@ export default function Home() {
             return null;
         }
 
-        let end = null;
+        let since = null;
 
         if (filterValues.start) {
-            end = (+new Date()) - 10000000;
+            since = {
+                'now-1h': '1h',
+                'now-3h': '3h',
+                'now-12h': '12h',
+                'now-1d': '1d',
+            }[filterValues.start];
         }
 
         return {
-            query: `{ ${filters.join(', ')} }`,
+            query: `{${filters.join(', ')}}`,
+            since,
         };
     }, [selectedLabels, filterValues]);
 

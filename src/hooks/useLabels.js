@@ -69,9 +69,13 @@ export default function useLabels() {
         .map((key) => filterQueryParamPrefix('labels', key, searchParams))
         .filter((label) => label !== null), [searchParams]);
 
-    const selectLabel = useCallback((name, value) => refreshQueryState(name, value, selectedLabels, 'labels'), [selectedLabels, pathname, searchParams]);
+    function selectLabel(name, value) {
+        refreshQueryState(name, value, selectedLabels, 'labels');
+    }
 
-    const selectFilter = useCallback((name, value) => refreshQueryState(name, value, selectedFilters, 'filters'), [selectedLabels, pathname, searchParams]);
+    function selectFilter(name, value) {
+        refreshQueryState(name, value, selectedFilters, 'filters');
+    }
 
     const filterValues = useMemo(() => {
         const items = {};
