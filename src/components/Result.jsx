@@ -59,16 +59,16 @@ const exceptionKey = 'exception';
 const internalRowKeys = ['datetime', 'extra', 'level', 'level_name', 'message'];
 
 const labelColors = [
-    'bg-teal-500/10',
-    'bg-sky-500/10',
-    'bg-indigo-500/10',
-    'bg-purple-500/10',
-    'bg-fuchsia-500/10',
-    'bg-rose-500/10',
-    'bg-red-500/10',
-    'bg-amber-500/10',
-    'bg-lime-500/10',
-    'bg-emerald-500/10',
+    { bg: 'bg-teal-500/10', border: 'border-teal-500/40', text: 'text-teal-700/80' },
+    { bg: 'bg-sky-500/10', border: 'border-sky-500/40', text: 'text-sky-700/80' },
+    { bg: 'bg-indigo-500/10', border: 'border-indigo-500/40', text: 'text-indigo-700/80' },
+    { bg: 'bg-purple-500/10', border: 'border-purple-500/40', text: 'text-purple-700/80' },
+    { bg: 'bg-fuchsia-500/10', border: 'border-fuchsia-500/40', text: 'text-fuchsia-700/80' },
+    { bg: 'bg-rose-500/10', border: 'border-rose-500/40', text: 'text-rose-700/80' },
+    { bg: 'bg-red-500/10', border: 'border-red-500/40', text: 'text-red-700/80' },
+    { bg: 'bg-amber-500/10', border: 'border-amber-500/40', text: 'text-amber-700/80' },
+    { bg: 'bg-lime-500/10', border: 'border-lime-500/40', text: 'text-lime-700/80' },
+    { bg: 'bg-emerald-500/10', border: 'border-emerald-500/40', text: 'text-emerald-700/80' },
 ];
 
 function Result({ rows }) {
@@ -97,7 +97,7 @@ function Result({ rows }) {
                         value: data[key],
                         index,
                         truncated: data[key].length >= 20,
-                        bgClassName: randomItemWithSeed(labelColors, key.split('').reduce((acc, val) => acc + val.charCodeAt(0), 0)),
+                        colorClassName: randomItemWithSeed(labelColors, key.split('').reduce((acc, val) => acc + val.charCodeAt(0), 0)),
                     })),
                 exception: data[exceptionKey],
                 classNameMap: levelClassNameMap[data.level] || levelClassNameMap[100],

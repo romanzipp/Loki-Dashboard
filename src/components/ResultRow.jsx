@@ -2,20 +2,33 @@ import React, { useState, useMemo } from 'react';
 import classNames from 'classnames';
 import { Td } from '@/components/Table';
 
+function prettifyValue(value) {
+    if (!value) {
+        return null;
+    }
+
+    try {
+        return JSON.stringify(JSON.parse(value), undefined, 4);
+    } catch (err) {
+        return value;
+    }
+}
+
 function ResultRow({ row }) {
     const [expanded, setExpanded] = useState(false);
 
-    const prettyException = useMemo(() => {
-        if (!row.exception) {
-            return null;
+    const expandedLabels = useMemo(() => {
+        if (!expanded) {
+            return [];
         }
 
-        try {
-            return JSON.stringify(JSON.parse(row.exception), undefined, 4);
-        } catch (err) {
-            return row.exception;
-        }
-    }, [row]);
+        return row.labels
+            .filter((label) => label.truncated)
+            .map((label) => ({
+                ...label,
+                prettyValue: prettifyValue(label.value),
+            }));
+    }, [expanded, row]);
 
     return (
         <tr
@@ -39,7 +52,7 @@ function ResultRow({ row }) {
                     {row.labels.map((label) => (
                         <div
                             key={label.key}
-                            className={classNames('bg-gray-200 px-1', row.hasBackground ? 'bg-black/30' : label.bgClassName)}
+                            className={classNames('bg-gray-200 px-1', row.hasBackground ? 'bg-black/30' : label.colorClassName.bg)}
                         >
                             <span className="mr-1 font-medium">
                                 {label.key}
@@ -73,9 +86,17 @@ function ResultRow({ row }) {
                 </button>
                 {expanded && (
                     <>
-                        {row.exception && (
-                            <pre className="mb-2 border-l-4 pl-2 border-red-400 break-words whitespace-pre-wrap text-xs">{prettyException}</pre>
-                        )}
+                        {expandedLabels.map((label) => (
+                            <pre
+                                key={label.key}
+                                className={`relative mb-2 border-l-4 pl-2 border-red-400 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
+                            >
+                                <div className={`left-0 top-[50%] absolute -rotate-90 origin-top-left -translate-x-[1.3rem] translate-y-full ${label.colorClassName.text}`}>
+                                    {label.key}
+                                </div>
+                                {label.prettyValue}
+                            </pre>
+                        ))}
                         <pre className="border-l-4 pl-2 border-gray-400 whitespace-pre-wrap break-words">{JSON.stringify(row.data, undefined, 4)}</pre>
                     </>
                 )}
