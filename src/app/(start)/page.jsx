@@ -6,7 +6,7 @@ import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
 
 export default function Home() {
-    const { selectedLabels } = useLabels();
+    const { selectedLabels, filterValues } = useLabels();
 
     const query = useMemo(() => {
         const filters = selectedLabels.map(({ name, value }) => `${name}="${value}"`);
@@ -15,10 +15,16 @@ export default function Home() {
             return null;
         }
 
+        let end = null;
+
+        if (filterValues.start) {
+            end = (+new Date()) - 10000000;
+        }
+
         return {
             query: `{ ${filters.join(', ')} }`,
         };
-    }, [selectedLabels]);
+    }, [selectedLabels, filterValues]);
 
     const { data: resultData } = useQuery({
         queryKey: ['loki', query],

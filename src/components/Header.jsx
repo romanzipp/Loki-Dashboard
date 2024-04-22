@@ -2,9 +2,13 @@ import React, { useMemo, Fragment } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import LabelDropdown from '@/components/LabelDropdown';
 import useLabels from '@/hooks/useLabels';
+import FilterDropdown from '@/components/FilterDropdown';
 
 function Header() {
-    const { selectedLabels, selectLabel } = useLabels();
+    const {
+        selectedLabels, selectLabel,
+        filterValues, selectFilter,
+    } = useLabels();
 
     const { data: labels } = useQuery({
         queryKey: ['loki', 'labels'],
@@ -52,6 +56,13 @@ function Header() {
                 Loki Dashboard
             </div>
             <div className="flex gap-2 text-xs items-center">
+                <FilterDropdown
+                    name="start"
+                    values={['now-1h', 'now-3h', 'now-12h', 'now-1d']}
+                    selectedValue={filterValues.start}
+                    onSelect={(value) => selectFilter('start', value)}
+                />
+
                 {computedLabels?.map((label) => (
                     <Fragment key={label.name}>
                         <LabelDropdown
