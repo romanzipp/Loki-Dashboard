@@ -23,6 +23,8 @@ export default function Components() {
                 'now-3h': '3h',
                 'now-12h': '12h',
                 'now-1d': '1d',
+                'now-3d': '3d',
+                'now-7d': '7d',
             }[filterValues.start];
         }
 
