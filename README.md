@@ -2,7 +2,8 @@
 
 An alternative **Dashboard** Frontend and **Logs Browser** for [Grafana Loki](https://grafana.com/oss/loki/).
 
-![](art/screenshot.png)
+![Screenshot](art/screenshot-01-light.png#gh-light-mode-only)
+![Screenshot](art/screenshot-01-dark.png#gh-dark-mode-only)
 
 ### Features
 
