@@ -3,39 +3,48 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import useLabels from '@/hooks/useLabels';
+import useConfig from '@/hooks/useConfig';
 
 const levelClassNameMap = {
     100: {
         levels: ['debug'],
         textClassName: 'text-gray-500',
+        bgClassName: 'bg-gray-500',
     },
     200: {
         levels: ['info'],
         textClassName: 'text-blue-600',
+        bgClassName: 'bg-blue-600',
     },
     250: {
         levels: ['notice'],
         textClassName: 'text-sky-600',
+        bgClassName: 'bg-sky-600',
     },
     300: {
         levels: ['warning'],
         textClassName: 'text-orange-600',
+        bgClassName: 'bg-orange-600',
     },
     400: {
         levels: ['error', 'err'],
         textClassName: 'text-orange-600',
+        bgClassName: 'bg-orange-600',
     },
     500: {
         levels: ['critical'],
         textClassName: 'text-red-600',
+        bgClassName: 'bg-red-600',
     },
     550: {
         levels: ['alert'],
         textClassName: 'text-red-600',
+        bgClassName: 'bg-red-600',
     },
     600: {
         levels: ['emergency'],
         textClassName: 'text-red-600',
+        bgClassName: 'bg-red-600',
     },
 };
 
@@ -124,6 +133,7 @@ const labelColors = [
 
 function Result({ rows }) {
     const { selectedLabels } = useLabels();
+    const config = useConfig();
 
     const computedRows = useMemo(() => {
         if (!rows) {
@@ -149,9 +159,10 @@ function Result({ rows }) {
                         bgClassName: labelColors[index % labelColors.length],
                     })),
                 classNameMap: levelClassNameMap[data.level] || levelClassNameMap[100],
+                hasBackground: config.coloredRows && (!config.coloredRowsLevelThreshold || data.level >= config.coloredRowsLevelThreshold),
             };
         });
-    }, [rows]);
+    }, [rows, config]);
 
     return (
         <table className="w-full">
@@ -167,7 +178,10 @@ function Result({ rows }) {
                 {computedRows.map((row) => (
                     <tr
                         key={row.key}
-                        className="group"
+                        className={classNames(
+                            row.hasBackground && [row.classNameMap.bgClassName, 'text-white'],
+                            'group',
+                        )}
                     >
                         <Td collapse>
                             {row.date.format('YYYY-MM-DD HH:mm:ss')}
@@ -175,7 +189,7 @@ function Result({ rows }) {
                         <Td
                             collapse
                             title={row.data.level}
-                            className={row.classNameMap.textClassName}
+                            className={row.hasBackground ? '' : row.classNameMap.textClassName}
                         >
                             {row.data.level_name}
                         </Td>
@@ -184,7 +198,7 @@ function Result({ rows }) {
                                 {row.labels.map((label) => (
                                     <div
                                         key={label.key}
-                                        className={classNames('bg-gray-200 px-1', label.bgClassName)}
+                                        className={classNames('bg-gray-200 px-1', row.hasBackground ? 'bg-black/30' : label.bgClassName)}
                                     >
                                         <span className="mr-1 font-medium">
                                             {label.key}
