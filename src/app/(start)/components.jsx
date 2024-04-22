@@ -46,7 +46,7 @@ export default function Components() {
         enabled: query !== null,
     });
 
-    const resultValues = useMemo(() => resultData?.result?.map((result) => result.values).reduce((acc, val) => acc.concat(val), []), [resultData]);
+    const resultValues = useMemo(() => resultData?.result?.map((result) => result.values).reduce((acc, val) => acc.concat(val), []).sort((a, b) => b[0] - a[0]), [resultData]);
 
     if (!query) {
         return (
