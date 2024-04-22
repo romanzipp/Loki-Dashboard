@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/store';
+import LabelDropdown from '@/components/LabelDropdown';
 
 function Header() {
-    const [selectedLabels, setSelectedLabels] = useStore(
-        useShallow((state) => [state.selectedLabels, state.setSelectedLabels]),
+    const [selectedLabels, selectLabel] = useStore(
+        useShallow((state) => [state.selectedLabels, state.selectLabel]),
     );
 
     const { data: labels } = useQuery({
@@ -37,33 +38,29 @@ function Header() {
         ),
     });
 
-    console.log(labelValues);
+    function onSelect(label, value) {
+        selectLabel(label, value);
+    }
+
+    console.log(selectedLabels);
 
     const computedLabels = useMemo(() => labels?.map((label) => ({
         name: label,
         values: labelValues?.find((lv) => lv.label === label)?.values || [],
-        selected: selectedLabels.includes(label),
+        selectedValue: selectedLabels.find((l) => l.name === label)?.value,
     })), [labels, labelValues, selectedLabels]);
 
     return (
-        <nav className="bg-[#23232A] p-2 text-white flex gap-4">
+        <nav className="bg-[#23232A] p-2 text-white items-center flex gap-4">
             <div className="font-semibold">
                 Loki Dashboard
             </div>
             <div className="flex gap-2 text-xs items-center">
                 {computedLabels?.map((label) => (
-                    <div
-                        key={label.name}
-                        className="border border-gray-600 px-2 py-1"
-                    >
-                        {label.name}
-
-                        {label.values.map((value) => (
-                            <div key={value}>
-                                {value}
-                            </div>
-                        ))}
-                    </div>
+                    <LabelDropdown
+                        label={label}
+                        onSelect={onSelect}
+                    />
                 ))}
             </div>
         </nav>
