@@ -9,18 +9,20 @@ export default function Home() {
         query: '{host=~".+"}',
     };
 
-    const { data } = useQuery({
+    const { data: resultData } = useQuery({
         queryKey: ['loki', query],
         queryFn: async () => fetch(`/api/loki?${new URLSearchParams(query)}`, {
             headers: {
                 'X-Loki-Path': 'query_range',
             },
-        }).then((res) => res.json()),
+        })
+            .then((res) => res.json())
+            .then((res) => res.data),
     });
 
     return (
         <div className="p-4">
-            {data?.data?.result?.length > 0 && data.data.result.map((result) => (
+            {resultData?.result?.length > 0 && resultData.result.map((result) => (
                 <Fragment key={JSON.stringify(result.stream)}>
                     <Result result={result} />
                 </Fragment>

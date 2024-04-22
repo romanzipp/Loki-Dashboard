@@ -121,10 +121,8 @@ function Result({ result }) {
         });
     }, [result]);
 
-    console.log(rows);
-
     return (
-        <table>
+        <table className="w-full">
             <thead className="text-sm uppercase font-medium bg-gray-100">
                 <tr>
                     <td>Timestamp</td>
