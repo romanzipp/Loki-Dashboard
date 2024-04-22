@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import useLabels from '@/hooks/useLabels';
 import useConfig from '@/hooks/useConfig';
+import ResultRow from '@/components/ResultRow';
+import { Th } from '@/components/Table';
 
 const levelClassNameMap = {
     100: {
@@ -50,72 +51,6 @@ const levelClassNameMap = {
 
 // ---------------------------------------------------------------------------------------
 
-const colProps = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string,
-    className: PropTypes.string,
-};
-
-// ---------------------------------------------------------------------------------------
-
-function TableCol({
-    comp, className = '', title = undefined, collapse = false, children,
-}) {
-    const C = comp;
-
-    return (
-        <C
-            title={title}
-            className={classNames(className, collapse && 'w-0 whitespace-nowrap', 'px-1')}
-        >
-            {children}
-        </C>
-    );
-}
-
-TableCol.propTypes = {
-    comp: PropTypes.string.isRequired,
-    ...colProps,
-};
-
-// ---------------------------------------------------------------------------------------
-
-function Th({
-    className = '', title = undefined, collapse = false, children,
-}) {
-    return (
-        <TableCol
-            comp="th"
-            title={title}
-            collapse={collapse}
-            className={classNames(className, 'text-left font-medium')}
-        >
-            {children}
-        </TableCol>
-    );
-}
-
-Th.propTypes = colProps;
-
-// ---------------------------------------------------------------------------------------
-
-function Td({
-    className = '', title = undefined, collapse = false, children,
-}) {
-    return (
-        <TableCol
-            comp="td"
-            title={title}
-            collapse={collapse}
-            className={classNames(className, 'group-hover:bg-gray-200')}
-        >
-            {children}
-        </TableCol>
-    );
-}
-
-Td.propTypes = colProps;
-
 // ---------------------------------------------------------------------------------------
 
 const exceptionKey = 'exception';
@@ -158,6 +93,7 @@ function Result({ rows }) {
                         index,
                         bgClassName: labelColors[index % labelColors.length],
                     })),
+                exception: data[exceptionKey],
                 classNameMap: levelClassNameMap[data.level] || levelClassNameMap[100],
                 hasBackground: config.coloredRows && (!config.coloredRowsLevelThreshold || data.level >= config.coloredRowsLevelThreshold),
             };
@@ -176,44 +112,7 @@ function Result({ rows }) {
             </thead>
             <tbody className="text-xs">
                 {computedRows.map((row) => (
-                    <tr
-                        key={row.key}
-                        className={classNames(
-                            row.hasBackground && [row.classNameMap.bgClassName, 'text-white'],
-                            'group',
-                        )}
-                    >
-                        <Td collapse>
-                            {row.date.format('YYYY-MM-DD HH:mm:ss')}
-                        </Td>
-                        <Td
-                            collapse
-                            title={row.data.level}
-                            className={row.hasBackground ? '' : row.classNameMap.textClassName}
-                        >
-                            {row.data.level_name}
-                        </Td>
-                        <Td collapse>
-                            <div className="flex gap-1">
-                                {row.labels.map((label) => (
-                                    <div
-                                        key={label.key}
-                                        className={classNames('bg-gray-200 px-1', row.hasBackground ? 'bg-black/30' : label.bgClassName)}
-                                    >
-                                        <span className="mr-1 font-medium">
-                                            {label.key}
-                                        </span>
-                                        <span className="opacity-80">
-                                            {label.value}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </Td>
-                        <Td>
-                            {row.data.message}
-                        </Td>
-                    </tr>
+                    <ResultRow row={row} />
                 ))}
             </tbody>
         </table>
