@@ -5,6 +5,7 @@ import useLabels from '@/hooks/useLabels';
 import useConfig from '@/hooks/useConfig';
 import ResultRow from '@/components/ResultRow';
 import { Th } from '@/components/Table';
+import { randomItemWithSeed } from '@/lib/utils';
 
 const levelClassNameMap = {
     100: {
@@ -55,15 +56,19 @@ const levelClassNameMap = {
 
 const exceptionKey = 'exception';
 
-const internalRowKeys = ['datetime', 'extra', 'level', 'level_name', 'message', exceptionKey];
+const internalRowKeys = ['datetime', 'extra', 'level', 'level_name', 'message'];
 
 const labelColors = [
-    'bg-teal-500/15',
-    'bg-sky-500/15',
-    'bg-indigo-500/15',
-    'bg-purple-500/15',
-    'bg-fuchsia-500/15',
-    'bg-rose-500/15',
+    'bg-teal-500/10',
+    'bg-sky-500/10',
+    'bg-indigo-500/10',
+    'bg-purple-500/10',
+    'bg-fuchsia-500/10',
+    'bg-rose-500/10',
+    'bg-red-500/10',
+    'bg-amber-500/10',
+    'bg-lime-500/10',
+    'bg-emerald-500/10',
 ];
 
 function Result({ rows }) {
@@ -91,7 +96,8 @@ function Result({ rows }) {
                         key,
                         value: data[key],
                         index,
-                        bgClassName: labelColors[index % labelColors.length],
+                        truncated: data[key].length >= 20,
+                        bgClassName: randomItemWithSeed(labelColors, key.split('').reduce((acc, val) => acc + val.charCodeAt(0), 0)),
                     })),
                 exception: data[exceptionKey],
                 classNameMap: levelClassNameMap[data.level] || levelClassNameMap[100],

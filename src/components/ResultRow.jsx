@@ -44,8 +44,8 @@ function ResultRow({ row }) {
                             <span className="mr-1 font-medium">
                                 {label.key}
                             </span>
-                            <span className="opacity-80">
-                                {label.value}
+                            <span className={`opacity-80 ${label.truncated ? 'italic' : ''}`}>
+                                {label.truncated ? '[truncated]' : label.value}
                             </span>
                         </div>
                     ))}
