@@ -67,7 +67,7 @@ function Header() {
                     <Fragment key={label.name}>
                         <LabelDropdown
                             label={label}
-                            onSelect={onSelect}
+                            onSelect={(name, value) => onSelect(name, value)}
                         />
                     </Fragment>
                 ))}
