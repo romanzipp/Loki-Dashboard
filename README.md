@@ -82,19 +82,19 @@ job "loki" {
 
 ## Configuration
 
-#### `LOKI_ENTRYPOINT` (default: `http://localhost:3100`)
+#### 🔠 `LOKI_ENTRYPOINT` (default: `http://localhost:3100`)
 
 The Loki instance base url.
 
-#### `COLORED_ROWS` (default: false)
+#### #️⃣ `COLORED_ROWS` (default: false)
 
 Color rows with the according level color.
 
-#### `COLORED_ROWS_LEVEL_THRESHOLD` (default: null)
+#### 🔢 `COLORED_ROWS_LEVEL_THRESHOLD` (default: null)
 
-If `COLORED_ROWS` is enabled, only add background to rows with a level larger or equal than the set value.
+If `COLORED_ROWS` is enabled, only add background to rows with a level larger or equal than the set value. Example: 400
 
-#### `LABEL_CHAR_LIMIT` (default: 26)
+#### 🔢 `LABEL_CHAR_LIMIT` (default: 26)
 
 Maximum limit of characters after which to truncate the label text
 
