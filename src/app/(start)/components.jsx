@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Fragment, useMemo } from 'react';
+import { useMemo } from 'react';
 import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
 
@@ -44,6 +44,8 @@ export default function Components() {
         enabled: query !== null,
     });
 
+    const resultValues = useMemo(() => resultData?.result?.map((result) => result.values).reduce((acc, val) => acc.concat(val), []), [resultData]);
+
     if (!query) {
         return (
             <div className="flex justify-center items-center min-h-[16rem]">
@@ -54,11 +56,9 @@ export default function Components() {
 
     return (
         <div className="p-4">
-            {resultData?.result?.length > 0 && resultData.result.map((result) => (
-                <Fragment key={JSON.stringify(result.stream)}>
-                    <Result result={result} />
-                </Fragment>
-            ))}
+            {resultValues?.length > 0 && (
+                <Result rows={resultValues} />
+            )}
         </div>
     );
 }
