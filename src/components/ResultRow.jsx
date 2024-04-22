@@ -62,7 +62,7 @@ function ResultRow({ row }) {
                     {row.labels.map((label) => (
                         <div
                             key={label.key}
-                            className={classNames('bg-gray-200 px-1', row.hasBackground ? 'bg-black/30' : label.colorClassName.bg)}
+                            className={classNames('px-1', row.hasBackground ? 'bg-black/30' : label.colorClassName.bg)}
                         >
                             <span className="mr-1 font-medium">
                                 {label.key}
