@@ -1,17 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Fragment, useMemo, useEffect } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { Fragment, useMemo } from 'react';
 import Result from '@/components/Result';
-import { useStore } from '@/store';
+import useLabels from '@/hooks/useLabels';
 
 export default function Home() {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    const selectedLabels = useStore((state) => state.selectedLabels);
+    const { selectedLabels } = useLabels();
 
     const query = useMemo(() => {
         const filters = selectedLabels.map(({ name, value }) => `${name}="${value}"`);
@@ -24,27 +19,6 @@ export default function Home() {
             query: `{ ${filters.join(', ')} }`,
         };
     }, [selectedLabels]);
-
-    useEffect(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.forEach((value, name) => {
-            params.delete(name);
-        });
-
-        selectedLabels.forEach(({ name, value }) => {
-            if (value === '*') {
-                return;
-            }
-
-            params.set(name, value);
-        });
-
-        const qs = params.toString();
-
-        router.push(`${pathname}?${qs}`);
-    }, [selectedLabels, pathname]);
-
-    console.log(query);
 
     const { data: resultData } = useQuery({
         queryKey: ['loki', query],
