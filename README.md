@@ -33,8 +33,51 @@ docker run -e "LOKI_ENTRYPOINT=http://localhost:3100" -p 3000:3000 romanzipp/lok
 
 ### Nomad (with Docker)
 
-```
-TODO
+```hcl
+job "loki" {
+  group "loki-dashboard" {
+    network {
+      mode = "bridge"
+
+      port "http" {
+        to = 3000
+      }
+    }
+
+    service {
+      name = "loki-dashboard"
+      port = "http"
+
+      connect {
+        sidecar_service {
+          proxy {
+            upstreams {
+              destination_name = "loki" # <- your Grafana Loki service name
+              local_bind_port  = 3100
+            }
+          }
+        }
+      }
+    }
+
+    task "loki-dashboard" {
+      driver = "docker"
+
+      config {
+        image = "ghcr.io/romanzipp/loki-dashboard:latest"
+        ports = ["http"]
+      }
+
+      env {
+        LOKI_ENTRYPOINT = "http://${NOMAD_UPSTREAM_ADDR_loki}"
+      }
+    }
+  }
+  
+  group "loki" {
+    # ...
+  }
+}
 ```
 
 ## Configuration
