@@ -6,8 +6,11 @@ export default function useConfig() {
         queryFn: () => fetch('/api/config').then((res) => res.json()),
     });
 
-    return config || {
+    const defaultConfig = {
         coloredRows: false,
         coloredRowsLevelThreshold: null,
+        labelCharLimit: 26,
     };
+
+    return { ...defaultConfig, ...config };
 }

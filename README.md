@@ -50,6 +50,10 @@ Color rows with the according level color.
 
 If `COLORED_ROWS` is enabled, only add background to rows with a level larger or equal than the set value.
 
+#### `LABEL_CHAR_LIMIT` (default: 26)
+
+Maximum limit of characters after which to truncate the label text
+
 ## License
 
 [MIT License](LICENSE.md)

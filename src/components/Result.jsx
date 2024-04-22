@@ -96,7 +96,7 @@ function Result({ rows }) {
                         key,
                         value: data[key],
                         index,
-                        truncated: data[key].length > 27,
+                        truncated: data[key].length > config.labelCharLimit,
                         colorClassName: randomItemWithSeed(labelColors, key.split('').reduce((acc, val) => acc + val.charCodeAt(0), 0)),
                     })),
                 exception: data[exceptionKey],

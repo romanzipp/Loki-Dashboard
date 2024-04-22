@@ -68,7 +68,7 @@ function ResultRow({ row }) {
                                 {label.key}
                             </span>
                             <span className={`opacity-80 ${label.truncated ? 'italic' : ''}`}>
-                                {label.truncated ? '[truncated]' : label.value}
+                                {label.truncated ? 'truncated' : label.value}
                             </span>
                         </div>
                     ))}
@@ -97,7 +97,7 @@ function ResultRow({ row }) {
                                 key={label.key}
                                 className={`relative mb-2 border-l-4 pl-2 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
                             >
-                                <div className={`left-0 top-[50%] absolute pr-3 -translate-x-full translate-y-full ${label.colorClassName.text}`}>
+                                <div className={`left-0 top-[50%] absolute pr-3 -translate-x-full -translate-y-1/2 ${label.colorClassName.text}`}>
                                     {label.key}
                                 </div>
                                 {label.prettyValue}
