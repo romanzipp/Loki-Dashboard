@@ -17,6 +17,14 @@ function prettifyValue(value) {
 function ResultRow({ row }) {
     const [expanded, setExpanded] = useState(false);
 
+    function onExpand(e) {
+        if (e.target.tagName === 'PRE') {
+            return;
+        }
+
+        setExpanded(!expanded);
+    }
+
     const expandedLabels = useMemo(() => {
         if (!expanded) {
             return [];
@@ -32,9 +40,11 @@ function ResultRow({ row }) {
 
     return (
         <tr
+            onClick={(e) => onExpand(e)}
             className={classNames(
                 row.hasBackground && [row.classNameMap.bgClassName, 'text-white'],
-                'group',
+                expanded && 'bg-gray-100',
+                'group cursor-pointer',
             )}
         >
             <Td collapse>
@@ -65,11 +75,7 @@ function ResultRow({ row }) {
                 </div>
             </Td>
             <Td>
-                <button
-                    type="button"
-                    onClick={() => setExpanded(!expanded)}
-                    className="flex items-center"
-                >
+                <div className="flex items-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 16 16"
@@ -83,7 +89,7 @@ function ResultRow({ row }) {
                         />
                     </svg>
                     {row.data.message}
-                </button>
+                </div>
                 {expanded && (
                     <>
                         {expandedLabels.map((label) => (
@@ -91,7 +97,7 @@ function ResultRow({ row }) {
                                 key={label.key}
                                 className={`relative mb-2 border-l-4 pl-2 border-red-400 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
                             >
-                                <div className={`left-0 top-[50%] absolute -rotate-90 origin-top-left -translate-x-[1.3rem] translate-y-full ${label.colorClassName.text}`}>
+                                <div className={`left-0 top-[50%] absolute pr-3 -translate-x-full translate-y-full ${label.colorClassName.text}`}>
                                     {label.key}
                                 </div>
                                 {label.prettyValue}
