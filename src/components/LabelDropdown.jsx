@@ -17,7 +17,6 @@ function LabelDropdown({ label, onSelect }) {
         ...label.values,
     ];
 
-    console.log(values);
     return (
         <Popover
             open={open}

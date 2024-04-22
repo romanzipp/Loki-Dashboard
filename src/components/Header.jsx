@@ -19,6 +19,7 @@ function Header() {
             .then((res) => res.json())
             .then((res) => res.data),
     });
+
     const { data: labelValues } = useQuery({
         queryKey: ['label-values', labels],
         queryFn: async () => Promise.all(
