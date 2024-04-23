@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Fragment } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import useLabels from '@/hooks/useLabels';
@@ -118,7 +118,9 @@ function Result({ rows }) {
             </thead>
             <tbody className="text-xs">
                 {computedRows.map((row) => (
-                    <ResultRow row={row} />
+                    <Fragment key={row.key}>
+                        <ResultRow row={row} />
+                    </Fragment>
                 ))}
             </tbody>
         </table>
