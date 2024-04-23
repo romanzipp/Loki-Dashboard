@@ -1,3 +1,5 @@
+/*  eslint-disable no-console */
+
 import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
@@ -13,21 +15,35 @@ export async function GET(request) {
     }
 
     const lokiPath = headersList.get('X-Loki-Path');
-
     const lokiUrl = `${process.env.LOKI_ENTRYPOINT}/loki/api/v1/${lokiPath}?${new URLSearchParams(query)}`;
 
+    let lokiBody = null;
+    let lokiResponse = null;
+
     try {
-        const lokiResponse = await fetch(lokiUrl);
+        lokiResponse = await fetch(lokiUrl);
 
-        const lokiData = await lokiResponse.json();
-
-        return Response.json(lokiData);
+        lokiBody = await lokiResponse.text();
     } catch (err) {
-        // eslint-disable-next-line no-console
         console.error(err);
 
         return Response.json({
-            error: err.message,
+            error: `fetch: ${err.message}`,
+            url: lokiUrl,
+            details: err,
+        });
+    }
+
+    try {
+        const lokiData = JSON.parse(lokiBody);
+
+        return Response.json(lokiData);
+    } catch (err) {
+        console.error(err);
+        console.error(lokiBody);
+
+        return Response.json({
+            error: `parse: ${err.message}`,
             url: lokiUrl,
             details: err,
         });
