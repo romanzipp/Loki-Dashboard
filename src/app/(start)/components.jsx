@@ -25,6 +25,8 @@ export default function Components() {
                 'now-1d': '1d',
                 'now-3d': '3d',
                 'now-7d': '7d',
+                'now-14d': '14d',
+                'now-30d': '30d',
             }[filterValues.start];
         }
 

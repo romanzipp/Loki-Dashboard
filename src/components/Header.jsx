@@ -58,7 +58,7 @@ function Header() {
             <div className="flex gap-2 text-xs items-center">
                 <FilterDropdown
                     name="start"
-                    values={['now-1h', 'now-3h', 'now-12h', 'now-1d', 'now-3d', 'now-7d']}
+                    values={['now-1h', 'now-3h', 'now-12h', 'now-1d', 'now-3d', 'now-7d', 'now-14d', 'now-30d']}
                     selectedValue={filterValues.start}
                     onSelect={(value) => selectFilter('start', value)}
                 />
