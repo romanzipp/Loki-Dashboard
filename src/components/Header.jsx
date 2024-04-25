@@ -52,10 +52,10 @@ function Header() {
 
     return (
         <nav className="bg-gray-800 p-2 text-white items-center flex gap-4">
-            <div className="font-semibold">
+            <div className="font-semibold whitespace-nowrap">
                 Loki Dashboard
             </div>
-            <div className="flex gap-2 text-xs items-center">
+            <div className="flex gap-2 text-xs items-center flex-wrap">
                 <FilterDropdown
                     name="start"
                     values={['now-1h', 'now-3h', 'now-12h', 'now-1d', 'now-3d', 'now-7d', 'now-14d', 'now-30d']}

@@ -36,7 +36,9 @@ export default function Components() {
         };
     }, [selectedLabels, filterValues]);
 
-    const { data: resultData } = useQuery({
+    const {
+        data: resultData, error, isLoading, isFetching,
+    } = useQuery({
         queryKey: ['loki', query],
         queryFn: async () => fetch(`/api/loki?${new URLSearchParams(query)}`, {
             headers: {
@@ -46,6 +48,8 @@ export default function Components() {
             .then((res) => res.json())
             .then((res) => res.data),
         enabled: query !== null,
+        refetchInterval: 15 * 1000,
+        refetchIntervalInBackground: false,
     });
 
     const resultValues = useMemo(() => resultData?.result?.map((result) => result.values).reduce((acc, val) => acc.concat(val), []).sort((a, b) => b[0] - a[0]), [resultData]);
@@ -58,11 +62,32 @@ export default function Components() {
         );
     }
 
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center min-h-[16rem]">
+                Loading...
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex justify-center items-center min-h-[16rem]">
+                {error}
+            </div>
+        );
+    }
+
     return (
-        <div className="p-4">
-            {resultValues?.length > 0 && (
-                <Result rows={resultValues} />
+        <>
+            {isFetching && (
+                <div className="fixed bottom-4 right-4 h-4 w-4 rounded-full bg-red-500" />
             )}
-        </div>
+            <div className="p-4">
+                {resultValues?.length > 0 && (
+                    <Result rows={resultValues} />
+                )}
+            </div>
+        </>
     );
 }
