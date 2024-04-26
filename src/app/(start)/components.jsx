@@ -52,7 +52,14 @@ export default function Components() {
         refetchIntervalInBackground: false,
     });
 
-    const resultValues = useMemo(() => resultData?.result?.map((result) => result.values).reduce((acc, val) => acc.concat(val), []).sort((a, b) => b[0] - a[0]), [resultData]);
+    const resultValues = useMemo(
+        () => resultData
+            ?.result
+            ?.map((result) => result.values.map((value) => [...value, result.stream]))
+            ?.reduce((acc, val) => acc.concat(val), [])
+            ?.sort((a, b) => b[0] - a[0]),
+        [resultData],
+    );
 
     if (!query) {
         return (

@@ -81,22 +81,25 @@ function Result({ rows }) {
         }
 
         return rows.map((row) => {
-            const [timestamp, value] = row;
+            const [timestamp, value, stream] = row;
             const data = JSON.parse(value);
+
+            const labels = Object.assign(stream, data);
 
             return {
                 key: `${timestamp}-${value}`,
                 date: moment(data.datetime),
                 data,
                 labels: Object
-                    .keys(data)
+                    .keys(labels)
                     .filter((key) => !internalRowKeys.includes(key))
-                    .filter((key) => !selectedLabels.some((label) => label.value === data[key]))
+                    .filter((key) => !selectedLabels.some((label) => label.value === labels[key]))
                     .map((key, index) => ({
                         key,
-                        value: data[key],
+                        value: labels[key],
                         index,
-                        truncated: data[key].length > config.labelCharLimit,
+                        fromStream: key in stream && !(key in data),
+                        truncated: labels[key].length > config.labelCharLimit,
                         colorClassName: randomItemWithSeed(labelColors, key.split('').reduce((acc, val) => acc + val.charCodeAt(0), 0)),
                     })),
                 exception: data[exceptionKey],

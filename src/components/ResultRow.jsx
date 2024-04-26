@@ -30,8 +30,8 @@ function ResultRow({ row }) {
             return [];
         }
 
-        return row.labels
-            .filter((label) => label.truncated)
+        return row
+            .labels
             .map((label) => ({
                 ...label,
                 prettyValue: prettifyValue(label.value),
@@ -59,7 +59,7 @@ function ResultRow({ row }) {
             </Td>
             <Td collapse>
                 <div className="flex gap-1">
-                    {row.labels.map((label) => (
+                    {row.labels.filter((label) => !label.fromStream).map((label) => (
                         <div
                             key={label.key}
                             className={classNames('px-1', row.hasBackground ? 'bg-black/30' : label.colorClassName.bg)}
@@ -91,7 +91,7 @@ function ResultRow({ row }) {
                     {row.data.message}
                 </div>
                 {expanded && (
-                    <>
+                    <div className="mt-2">
                         {expandedLabels.map((label) => (
                             <pre
                                 key={label.key}
@@ -104,7 +104,7 @@ function ResultRow({ row }) {
                             </pre>
                         ))}
                         <pre className="border-l-4 pl-2 border-gray-400 whitespace-pre-wrap break-words">{JSON.stringify(row.data, undefined, 4)}</pre>
-                    </>
+                    </div>
                 )}
             </Td>
         </tr>
