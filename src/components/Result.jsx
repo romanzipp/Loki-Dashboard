@@ -6,6 +6,7 @@ import useConfig from '@/hooks/useConfig';
 import ResultRow from '@/components/ResultRow';
 import { Th } from '@/components/Table';
 import { randomItemWithSeed } from '@/lib/utils';
+import useSettings from '@/hooks/useSettings';
 
 const levelClassNameMap = {
     100: {
@@ -74,6 +75,7 @@ const labelColors = [
 function Result({ rows }) {
     const { selectedLabels } = useLabels();
     const config = useConfig();
+    const { truncateLogs } = useSettings();
 
     const computedRows = useMemo(() => {
         if (!rows) {
@@ -122,7 +124,10 @@ function Result({ rows }) {
             <tbody className="text-xs">
                 {computedRows.map((row) => (
                     <Fragment key={row.key}>
-                        <ResultRow row={row} />
+                        <ResultRow
+                            row={row}
+                            truncate={truncateLogs}
+                        />
                     </Fragment>
                 ))}
             </tbody>

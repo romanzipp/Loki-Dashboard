@@ -18,7 +18,7 @@ function prettifyValue(value) {
     }
 }
 
-function ResultRow({ row }) {
+function ResultRow({ row, truncate = false }) {
     const [expanded, setExpanded] = useState(false);
 
     function onExpand(e) {
@@ -97,7 +97,9 @@ function ResultRow({ row }) {
                             clipRule="evenodd"
                         />
                     </svg>
-                    {row.data.message}
+                    <span className={truncate ? 'whitespace-nowrap' : ''}>
+                        {row.data.message}
+                    </span>
                 </div>
                 {expanded && (
                     <div className="mt-2">
