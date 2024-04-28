@@ -10,7 +10,7 @@ function Header() {
         filterValues, selectFilter,
     } = useLabels();
 
-    const { data: labels } = useQuery({
+    const { data: labels, error: labelsError, isLoading: labelsLoading } = useQuery({
         queryKey: ['loki', 'labels'],
         queryFn: async () => fetch('/api/loki', {
             headers: {
@@ -30,6 +30,7 @@ function Header() {
                         'X-Loki-Path': `label/${label}/values`,
                     },
                 });
+
                 const data = await res.json();
 
                 return {
@@ -62,6 +63,18 @@ function Header() {
                     selectedValue={filterValues.start}
                     onSelect={(value) => selectFilter('start', value)}
                 />
+
+                {labelsLoading && (
+                    <div className="pl-4">
+                        loading labels...
+                    </div>
+                )}
+
+                {labelsError && (
+                    <div>
+                        Error loading labels. See console for more information.
+                    </div>
+                )}
 
                 {computedLabels?.map((label) => (
                     <Fragment key={label.name}>

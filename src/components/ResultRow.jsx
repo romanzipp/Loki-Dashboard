@@ -7,6 +7,10 @@ function prettifyValue(value) {
         return null;
     }
 
+    if (typeof value === 'string') {
+        return value;
+    }
+
     try {
         return JSON.stringify(JSON.parse(value), undefined, 4);
     } catch (err) {
@@ -24,6 +28,11 @@ function ResultRow({ row }) {
 
         setExpanded(!expanded);
     }
+
+    const displayLabels = row.labels.filter((label) => !label.fromStream).map((label) => ({
+        ...label,
+        prettyValue: prettifyValue(label.value),
+    }));
 
     const expandedLabels = useMemo(() => {
         if (!expanded) {
@@ -59,7 +68,7 @@ function ResultRow({ row }) {
             </Td>
             <Td collapse>
                 <div className="flex gap-1">
-                    {row.labels.filter((label) => !label.fromStream).map((label) => (
+                    {displayLabels.map((label) => (
                         <div
                             key={label.key}
                             className={classNames('px-1', row.hasBackground ? 'bg-black/30' : label.colorClassName.bg)}
@@ -68,7 +77,7 @@ function ResultRow({ row }) {
                                 {label.key}
                             </span>
                             <span className={`opacity-80 ${label.truncated ? 'italic' : ''}`}>
-                                {label.truncated ? 'truncated' : label.value}
+                                {label.truncated ? 'truncated' : label.prettyValue}
                             </span>
                         </div>
                     ))}

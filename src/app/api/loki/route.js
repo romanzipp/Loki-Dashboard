@@ -21,7 +21,9 @@ export async function GET(request) {
     let lokiResponse = null;
 
     try {
-        lokiResponse = await fetch(lokiUrl);
+        lokiResponse = await fetch(lokiUrl, {
+            signal: AbortSignal.timeout((process.env.REQUEST_TIMEOUT || 10) * 1000),
+        });
 
         lokiBody = await lokiResponse.text();
     } catch (err) {
