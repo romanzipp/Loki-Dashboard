@@ -1,16 +1,16 @@
 /* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { useStore } from '@/hooks/useStore';
 
 const SET_TRUNCATE = 'settings_truncate_logs';
 
 export default function useSettings() {
     const [lastChanged, setLastChanged] = useState(null);
 
-    const [truncateLogs, setTruncateLogs] = useState(false);
-
-    function listener() {
-        setLastChanged(+new Date());
-    }
+    const [truncateLogs, setTruncateLogs, setSettingsLoaded] = useStore(
+        useShallow((state) => [state.truncateLogs, state.setTruncateLogs, state.setSettingsLoaded]),
+    );
 
     useEffect(() => {
         if (!localStorage) {
@@ -18,6 +18,8 @@ export default function useSettings() {
         }
 
         setTruncateLogs((SET_TRUNCATE in localStorage) && localStorage[SET_TRUNCATE] === '1');
+
+        setSettingsLoaded(true);
     }, [lastChanged]);
 
     function changeSettings(key, value) {
@@ -27,16 +29,7 @@ export default function useSettings() {
 
         localStorage[key] = value;
         setLastChanged(+new Date());
-        window.dispatchEvent(new CustomEvent('settings'));
     }
-
-    useEffect(() => {
-        window.addEventListener('settings', listener);
-
-        return () => {
-            window.removeEventListener('settings', listener);
-        };
-    }, []);
 
     return {
         truncateLogs,

@@ -10,8 +10,8 @@ import { useStore } from '@/hooks/useStore';
 
 export default function Components() {
     const { selectedLabels, filterValues } = useLabels();
-    const [overrideQuery, setOverrideQuery] = useStore(
-        useShallow((state) => [state.overrideQuery, state.setOverrideQuery]),
+    const [overrideQuery, setOverrideQuery, settingsLoaded] = useStore(
+        useShallow((state) => [state.overrideQuery, state.setOverrideQuery, state.settingsLoaded]),
     );
 
     const overrideInput = useRef(null);
@@ -97,6 +97,10 @@ export default function Components() {
     function onOverrideReset() {
         setOverrideQuery(null);
         overrideInput.current.value = query.defaultQuery;
+    }
+
+    if (!settingsLoaded) {
+        return null;
     }
 
     if (!filterValues.start) {
