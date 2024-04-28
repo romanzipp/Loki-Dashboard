@@ -15,6 +15,7 @@ const buttonVariants = cva(
                 secondary: 'bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-100/80 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-800/80',
                 ghost: 'hover:bg-white/20',
                 'ghost-active': 'hover:bg-white/20 ring-1 ring-amber-400/60',
+                'ghost-overridden': 'hover:bg-white/20 ring-1 ring-red-400/60',
                 link: 'text-gray-900 underline-offset-4 hover:underline dark:text-gray-50',
             },
             size: {

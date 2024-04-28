@@ -10,7 +10,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 
-function LabelDropdown({ label, onSelect }) {
+function LabelDropdown({ label, onSelect, overridden = false }) {
     const [open, setOpen] = React.useState(false);
     const values = [
         '*',
@@ -24,14 +24,15 @@ function LabelDropdown({ label, onSelect }) {
         >
             <PopoverTrigger asChild>
                 <Button
-                    variant={label.selectedValue ? 'ghost-active' : 'ghost'}
+                    variant={overridden ? 'ghost-overridden' : (label.selectedValue ? 'ghost-active' : 'ghost')}
                     role="combobox"
                     aria-expanded={open}
                     size="sm"
+                    disabled={overridden}
                     className="w-[200px] justify-between"
                 >
                     {label.name}
-                    {label.selectedValue && (
+                    {(label.selectedValue && !overridden) && (
                         <span className="font-mono text-amber-400">
                             {label.selectedValue}
                         </span>

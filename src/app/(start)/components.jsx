@@ -1,16 +1,20 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import classNames from 'classnames';
+import { useShallow } from 'zustand/react/shallow';
 import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
+import { useStore } from '@/hooks/useStore';
 
 export default function Components() {
     const { selectedLabels, filterValues } = useLabels();
+    const [overrideQuery, setOverrideQuery] = useStore(
+        useShallow((state) => [state.overrideQuery, state.setOverrideQuery]),
+    );
 
     const overrideInput = useRef(null);
-    const [overrideQuery, setOverrideQuery] = useState(null);
 
     const query = useMemo(() => {
         const filters = selectedLabels.map(({ name, value }) => `${name}="${value}"`);

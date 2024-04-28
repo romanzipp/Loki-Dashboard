@@ -1,16 +1,22 @@
 import React, { useMemo, Fragment, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
+import { useShallow } from 'zustand/react/shallow';
 import LabelDropdown from '@/components/LabelDropdown';
 import useLabels from '@/hooks/useLabels';
 import FilterDropdown from '@/components/FilterDropdown';
 import useSettings from '@/hooks/useSettings';
+import { useStore } from '@/hooks/useStore';
 
 function Header() {
     const {
         selectedLabels, selectLabel,
         filterValues, selectFilter,
     } = useLabels();
+
+    const [overrideQuery] = useStore(
+        useShallow((state) => [state.overrideQuery]),
+    );
 
     // Settings
 
@@ -92,6 +98,7 @@ function Header() {
                             <LabelDropdown
                                 label={label}
                                 onSelect={(name, value) => onSelect(name, value)}
+                                overridden={!!overrideQuery}
                             />
                         </Fragment>
                     ))}

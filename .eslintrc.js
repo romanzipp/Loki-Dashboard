@@ -32,6 +32,7 @@ module.exports = {
         'react/react-in-jsx-scope': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
         'react/jsx-no-useless-fragment': 'warn',
+        'no-nested-ternary': 'off',
         'import/no-extraneous-dependencies': 'off',
         'no-unused-vars': 'warn',
         'no-use-before-define': 'warn',
