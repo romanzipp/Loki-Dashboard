@@ -40,14 +40,22 @@ export default function Components() {
         data: resultData, error, isLoading, isFetching,
     } = useQuery({
         queryKey: ['loki', query],
-        queryFn: async () => fetch(`/api/loki?${new URLSearchParams(query)}`, {
-            headers: {
-                'X-Loki-Path': 'query_range',
-            },
-        })
-            .then((res) => res.json())
-            .then((res) => res.data),
-        enabled: query !== null,
+        queryFn: async () => {
+            const res = await fetch(`/api/loki?${new URLSearchParams(query)}`, {
+                headers: {
+                    'X-Loki-Path': 'query_range',
+                },
+            });
+
+            const data = await res.json();
+
+            if (data?.error) {
+                throw new Error(data.error);
+            }
+
+            return data?.data;
+        },
+        enabled: !!filterValues.start && query !== null,
         refetchInterval: 15 * 1000,
         refetchIntervalInBackground: false,
     });
@@ -60,6 +68,14 @@ export default function Components() {
             ?.sort((a, b) => b[0] - a[0]),
         [resultData],
     );
+
+    if (!filterValues.start) {
+        return (
+            <div className="flex justify-center items-center min-h-[16rem]">
+                Select a date rang from the &apos;start&apos; dropdown.
+            </div>
+        );
+    }
 
     if (!query) {
         return (
@@ -80,7 +96,7 @@ export default function Components() {
     if (error) {
         return (
             <div className="flex justify-center items-center min-h-[16rem]">
-                {error}
+                {`${error}`}
             </div>
         );
     }
