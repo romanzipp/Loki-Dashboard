@@ -14,7 +14,7 @@ function prettifyValue(value) {
     try {
         return JSON.stringify(JSON.parse(value), undefined, 4);
     } catch (err) {
-        return value;
+        return `${value}`;
     }
 }
 
