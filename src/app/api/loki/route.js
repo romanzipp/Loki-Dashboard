@@ -45,7 +45,7 @@ export async function GET(request) {
         console.error(lokiBody);
 
         return Response.json({
-            error: `parse: ${err.message}`,
+            error: lokiBody,
             url: lokiUrl,
             details: err,
         });

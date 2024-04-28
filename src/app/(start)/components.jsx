@@ -1,12 +1,16 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState, useRef } from 'react';
+import classNames from 'classnames';
 import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
 
 export default function Components() {
     const { selectedLabels, filterValues } = useLabels();
+
+    const overrideInput = useRef(null);
+    const [overrideQuery, setOverrideQuery] = useState(null);
 
     const query = useMemo(() => {
         const filters = selectedLabels.map(({ name, value }) => `${name}="${value}"`);
@@ -30,11 +34,20 @@ export default function Components() {
             }[filterValues.start];
         }
 
+        const defaultQuery = `{${filters.join(', ')}}`;
+
         return {
-            query: `{${filters.join(', ')}}`,
+            query: overrideQuery || defaultQuery,
+            defaultQuery,
             since,
         };
-    }, [selectedLabels, filterValues]);
+    }, [selectedLabels, filterValues, overrideQuery]);
+
+    useMemo(() => {
+        if (overrideInput.current) {
+            overrideInput.current.value = query.query;
+        }
+    }, [overrideInput, query.query]);
 
     const {
         data: resultData, error, isLoading, isFetching,
@@ -69,6 +82,19 @@ export default function Components() {
         [resultData],
     );
 
+    function onOverrideFormSubmit(e) {
+        e.preventDefault();
+
+        const data = new FormData(e.target);
+
+        setOverrideQuery(data.get('query'));
+    }
+
+    function onOverrideReset() {
+        setOverrideQuery(null);
+        overrideInput.current.value = query.defaultQuery;
+    }
+
     if (!filterValues.start) {
         return (
             <div className="flex justify-center items-center min-h-[16rem]">
@@ -85,27 +111,56 @@ export default function Components() {
         );
     }
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-[16rem]">
-                Loading...
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex justify-center items-center min-h-[16rem]">
-                {`${error}`}
-            </div>
-        );
-    }
-
     return (
         <>
             {isFetching && (
                 <div className="fixed bottom-4 right-4 h-4 w-4 rounded-full bg-red-500" />
             )}
+
+            <div className="p-4">
+                <form onSubmit={(e) => onOverrideFormSubmit(e)}>
+                    <label
+                        htmlFor="query"
+                        className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1"
+                    >
+                        Query
+                        {' '}
+                        {overrideQuery && '(overridden)'}
+                        {overrideQuery && (
+                            <button
+                                type="button"
+                                className="text-xs text-red-500 ml-2"
+                                onClick={() => onOverrideReset()}
+                            >
+                                Reset
+                            </button>
+                        )}
+                    </label>
+                    <input
+                        type="text"
+                        className={classNames(
+                            'font-mono text-xs border px-2 py-1 w-full dark:bg-transparent',
+                            overrideQuery ? 'border-red-500' : 'border-gray-300 dark:border-gray-500',
+                        )}
+                        name="query"
+                        ref={overrideInput}
+                        defaultValue={query?.query}
+                    />
+                </form>
+            </div>
+
+            {isLoading && (
+                <div className="flex justify-center items-center min-h-[16rem]">
+                    Loading...
+                </div>
+            )}
+
+            {error && (
+                <div className="flex justify-center items-center min-h-[16rem]">
+                    {`${error}`}
+                </div>
+            )}
+
             <div className="p-4">
                 {resultValues?.length > 0 && (
                     <Result rows={resultValues} />

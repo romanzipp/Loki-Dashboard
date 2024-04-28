@@ -108,7 +108,7 @@ function Header() {
             </nav>
             {showSettings && (
                 <div className="p-4 text-sm">
-                    <div className="border-2 p-2">
+                    <div className="border border-gray-300 dark:border-gray-500 p-2">
                         <div>
                             <button
                                 type="button"
