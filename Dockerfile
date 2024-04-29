@@ -17,7 +17,7 @@ RUN npm install
 
 # Build application
 
-RUN NODE_ENV=development npm run build
+RUN npm run build
 
 # Remove dev dependencies
 

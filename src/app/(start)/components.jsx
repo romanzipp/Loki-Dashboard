@@ -49,9 +49,9 @@ export default function Components() {
 
     useMemo(() => {
         if (overrideInput.current) {
-            overrideInput.current.value = query.query;
+            overrideInput.current.value = query?.query;
         }
-    }, [overrideInput, query.query]);
+    }, [overrideInput, query?.query]);
 
     const {
         data: resultData, error, isLoading, isFetching,
@@ -72,7 +72,7 @@ export default function Components() {
 
             return data?.data;
         },
-        enabled: !!filterValues.start && !!query.query,
+        enabled: !!filterValues.start && !!query?.query,
         refetchInterval: 15 * 1000,
         refetchIntervalInBackground: false,
     });
@@ -98,7 +98,7 @@ export default function Components() {
         setOverrideQuery(null);
 
         if (overrideInput.current) {
-            overrideInput.current.value = query.defaultQuery;
+            overrideInput.current.value = query?.defaultQuery;
         }
     }
 
