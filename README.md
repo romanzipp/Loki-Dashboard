@@ -7,14 +7,15 @@ An alternative **Dashboard** Frontend and **Logs Browser** for [Grafana Loki](ht
 
 ### Features
 
-- See all ingested into Loki
-- Automatic fetching of **labels** & handy filtering
-- Store current filter **state in URL**, set bookmarks for dashboards
-- Parsing of **exceptions** & additonal data
-- Customizable UI
-- Deploy as **Docker** container
-- Override query build with **custom expression**
-- Dark mode
+- 📋 **See all logs ingested into Loki**
+- 📌 Automatic fetching of **labels** & handy filtering
+- 📥 Store current filter **state in URL**, set bookmarks for dashboards
+- 📮 Parsing of **exceptions** & additonal data
+- 🖌️ Customizable UI
+- 📦 Deploy as **Docker** container
+- ⌨️ Override query build with **custom expression**
+- ➡️ **Pagination** with infinte scrolling
+- 🌚 Dark mode
 
 ## Setup
 

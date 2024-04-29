@@ -72,7 +72,7 @@ const labelColors = [
     { bg: 'bg-emerald-500/10 dark:bg-emerald-700/40', border: 'border-emerald-500/40 border-emerald-500/60', text: 'text-emerald-700/80 dark:text-emerald-500/90' },
 ];
 
-function Result({ rows, loadMore }) {
+function Result({ rows }) {
     const { selectedLabels } = useLabels();
     const config = useConfig();
     const { truncateLogs } = useSettings();
@@ -112,42 +112,32 @@ function Result({ rows, loadMore }) {
     }, [rows, config]);
 
     return (
-        <>
-            <table className="w-full">
-                <thead className="text-sm uppercase font-medium bg-gray-100 dark:bg-gray-800">
-                    <tr>
-                        <Th>Timestamp</Th>
-                        <Th>Level</Th>
-                        <Th>Labels</Th>
-                        <Th>Message</Th>
-                    </tr>
-                </thead>
-                <tbody className="text-xs">
-                    {computedRows.map((row) => (
-                        <Fragment key={row.key}>
-                            <ResultRow
-                                row={row}
-                                truncate={truncateLogs}
-                            />
-                        </Fragment>
-                    ))}
-                </tbody>
-            </table>
-            <button
-                onClick={() => loadMore()}
-                type="button"
-                className="block w-full text-center text-gray-500 py-8 hover:bg-gray-100"
-            >
-                Load more rows
-            </button>
-        </>
+        <table className="w-full">
+            <thead className="text-sm uppercase font-medium bg-gray-100 dark:bg-gray-800">
+                <tr>
+                    <Th>Timestamp</Th>
+                    <Th>Level</Th>
+                    <Th>Labels</Th>
+                    <Th>Message</Th>
+                </tr>
+            </thead>
+            <tbody className="text-xs">
+                {computedRows.map((row) => (
+                    <Fragment key={row.key}>
+                        <ResultRow
+                            row={row}
+                            truncate={truncateLogs}
+                        />
+                    </Fragment>
+                ))}
+            </tbody>
+        </table>
     );
 }
 
 Result.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     rows: PropTypes.arrayOf(PropTypes.array).isRequired,
-    loadMore: PropTypes.func.isRequired,
 };
 
 export default Result;

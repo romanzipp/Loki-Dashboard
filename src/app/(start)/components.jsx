@@ -1,9 +1,7 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import {
-    useMemo, useRef, useCallback, useState,
-} from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { useShallow } from 'zustand/react/shallow';
 import Result from '@/components/Result';
@@ -21,23 +19,21 @@ export default function Components() {
     // -----------------------------------------------------------------------------
     // Filters
 
-    const limit = 30;
-    const [start, setStart] = useState(null);
+    const limit = 100;
 
     const overrideInput = useRef(null);
 
-    const query = useMemo(() => {
+    const [query, defaultQuery] = useMemo(() => {
         const filters = selectedLabels.map(({ name, value }) => `${name}="${value}"`);
 
         if (filters.length === 0) {
-            return null;
+            return [null, null];
         }
 
-        const defaultQuery = `{${filters.join(', ')}}`;
+        const returnDefaultQuery = `{${filters.join(', ')}}`;
 
         const returnQuery = {
-            query: overrideQuery || defaultQuery,
-            defaultQuery,
+            query: overrideQuery || returnDefaultQuery,
             limit,
         };
 
@@ -54,7 +50,7 @@ export default function Components() {
             }[filterValues.start];
         }
 
-        return returnQuery;
+        return [returnQuery, returnDefaultQuery];
     }, [selectedLabels, filterValues, overrideQuery]);
 
     useMemo(() => {
@@ -67,11 +63,25 @@ export default function Components() {
     // API
 
     const {
-        data: resultData, error, isLoading, isFetching,
-    } = useQuery({
+        data: resultData,
+        error,
+        isLoading,
+        isFetching,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    } = useInfiniteQuery({
         queryKey: ['loki', query],
-        queryFn: async () => {
-            const res = await fetch(`/api/loki?${new URLSearchParams(query)}`, {
+        queryFn: async ({ pageParam }) => {
+            const sendQuery = { ...query };
+
+            if (pageParam) {
+                sendQuery.end = pageParam;
+                // sendQuery.start = (Math.round(pageParam / 1000000) - (86400 * 4)) * 1000000;
+                // sendQuery.since = '12h';
+            }
+
+            const res = await fetch(`/api/loki?${new URLSearchParams(sendQuery)}`, {
                 headers: {
                     'X-Loki-Path': 'query_range',
                 },
@@ -88,28 +98,35 @@ export default function Components() {
         enabled: !!query?.query, // !!filterValues.start &&
         refetchInterval: 15 * 1000,
         refetchIntervalInBackground: false,
+        initialPageParam: null,
+        getNextPageParam: (lastPage) => {
+            const values = lastPage
+                ?.result
+                ?.map((result) => result.values.map((value) => [...value, result.stream]))
+                ?.reduce((acc, val) => acc.concat(val), [])
+                ?.sort((a, b) => b[0] - a[0]);
+
+            if (values?.length > 0) {
+                // console.log('getNextPageParam', new Date(Math.round(values[values.length - 1][0] / 1000000)));
+                return values[values.length - 1][0];
+            }
+
+            return null;
+        },
     });
 
-    const resultValues = useMemo(
-        () => resultData
-            ?.result
-            ?.map((result) => result.values.map((value) => [...value, result.stream]))
+    const resultValues = useMemo(() => {
+        const results = resultData?.pages?.map((page) => page.result)?.flat();
+
+        const values = results?.map((result) => result.values.map((value) => [...value, result.stream]))
             ?.reduce((acc, val) => acc.concat(val), [])
-            ?.sort((a, b) => b[0] - a[0]),
-        [resultData],
-    );
+            ?.sort((a, b) => b[0] - a[0]);
+
+        return values;
+    }, [resultData]);
 
     // -----------------------------------------------------------------------------
     // Callbacks
-
-    const loadMore = useCallback(() => {
-        if (resultValues?.length > 0) {
-            const lastValue = resultValues[resultValues.length - 1][0];
-
-            setStart(lastValue);
-            console.log('more', lastValue);
-        }
-    }, [resultValues]);
 
     function onOverrideFormSubmit(e) {
         e.preventDefault();
@@ -123,7 +140,7 @@ export default function Components() {
         setOverrideQuery(null);
 
         if (overrideInput.current) {
-            overrideInput.current.value = query?.defaultQuery;
+            overrideInput.current.value = defaultQuery;
         }
     }
 
@@ -202,10 +219,19 @@ export default function Components() {
 
             <div className={classNames('p-4', truncateLogs ? 'max-w-full truncate' : '')}>
                 {resultValues?.length > 0 && (
-                    <Result
-                        rows={resultValues}
-                        loadMore={loadMore}
-                    />
+                    <>
+                        <Result
+                            rows={resultValues}
+                            loadMore={() => fetchNextPage()}
+                        />
+                        <button
+                            onClick={() => fetchNextPage()}
+                            type="button"
+                            className="block w-full text-center text-gray-500 py-8 hover:bg-gray-100"
+                        >
+                            {isFetchingNextPage ? 'Loading next results...' : (hasNextPage ? 'Load more rows' : 'End reached.')}
+                        </button>
+                    </>
                 )}
             </div>
         </>
