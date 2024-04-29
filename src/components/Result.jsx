@@ -72,7 +72,7 @@ const labelColors = [
     { bg: 'bg-emerald-500/10 dark:bg-emerald-700/40', border: 'border-emerald-500/40 border-emerald-500/60', text: 'text-emerald-700/80 dark:text-emerald-500/90' },
 ];
 
-function Result({ rows }) {
+function Result({ rows, loadMore }) {
     const { selectedLabels } = useLabels();
     const config = useConfig();
     const { truncateLogs } = useSettings();
@@ -133,9 +133,13 @@ function Result({ rows }) {
                     ))}
                 </tbody>
             </table>
-            <div className="text-center">
-                asd
-            </div>
+            <button
+                onClick={() => loadMore()}
+                type="button"
+                className="block w-full text-center text-gray-500 py-8 hover:bg-gray-100"
+            >
+                Load more rows
+            </button>
         </>
     );
 }
@@ -143,6 +147,7 @@ function Result({ rows }) {
 Result.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     rows: PropTypes.arrayOf(PropTypes.array).isRequired,
+    loadMore: PropTypes.func.isRequired,
 };
 
 export default Result;

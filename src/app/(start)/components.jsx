@@ -1,7 +1,9 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useRef } from 'react';
+import {
+    useMemo, useRef, useCallback, useState,
+} from 'react';
 import classNames from 'classnames';
 import { useShallow } from 'zustand/react/shallow';
 import Result from '@/components/Result';
@@ -15,6 +17,12 @@ export default function Components() {
     const [overrideQuery, setOverrideQuery, settingsLoaded] = useStore(
         useShallow((state) => [state.overrideQuery, state.setOverrideQuery, state.settingsLoaded]),
     );
+
+    // -----------------------------------------------------------------------------
+    // Filters
+
+    const limit = 30;
+    const [start, setStart] = useState(null);
 
     const overrideInput = useRef(null);
 
@@ -30,6 +38,7 @@ export default function Components() {
         const returnQuery = {
             query: overrideQuery || defaultQuery,
             defaultQuery,
+            limit,
         };
 
         if (filterValues.start) {
@@ -53,6 +62,9 @@ export default function Components() {
             overrideInput.current.value = query?.query;
         }
     }, [overrideInput, query?.query]);
+
+    // -----------------------------------------------------------------------------
+    // API
 
     const {
         data: resultData, error, isLoading, isFetching,
@@ -87,6 +99,18 @@ export default function Components() {
         [resultData],
     );
 
+    // -----------------------------------------------------------------------------
+    // Callbacks
+
+    const loadMore = useCallback(() => {
+        if (resultValues?.length > 0) {
+            const lastValue = resultValues[resultValues.length - 1][0];
+
+            setStart(lastValue);
+            console.log('more', lastValue);
+        }
+    }, [resultValues]);
+
     function onOverrideFormSubmit(e) {
         e.preventDefault();
 
@@ -102,6 +126,9 @@ export default function Components() {
             overrideInput.current.value = query?.defaultQuery;
         }
     }
+
+    // -----------------------------------------------------------------------------
+    // Render
 
     if (!settingsLoaded) {
         return null;
@@ -175,7 +202,10 @@ export default function Components() {
 
             <div className={classNames('p-4', truncateLogs ? 'max-w-full truncate' : '')}>
                 {resultValues?.length > 0 && (
-                    <Result rows={resultValues} />
+                    <Result
+                        rows={resultValues}
+                        loadMore={loadMore}
+                    />
                 )}
             </div>
         </>
