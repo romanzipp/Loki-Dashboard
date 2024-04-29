@@ -104,6 +104,11 @@ function Header() {
                     ))}
                 </div>
                 <div className="text-xs grow flex justify-end">
+                    {overrideQuery && (
+                        <div className="p-2 bg-red-500">
+                            REFRESH PAUSED
+                        </div>
+                    )}
                     <button
                         type="button"
                         onClick={() => setShowSettings(!showSettings)}

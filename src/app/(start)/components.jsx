@@ -96,8 +96,9 @@ export default function Components() {
             return data?.data;
         },
         enabled: !!query?.query, // !!filterValues.start &&
-        refetchInterval: 15 * 1000,
+        refetchInterval: overrideQuery ? false : 15 * 1000,
         refetchIntervalInBackground: false,
+        refetchOnWindowFocus: !overrideQuery,
         initialPageParam: null,
         getNextPageParam: (lastPage) => {
             const values = lastPage
