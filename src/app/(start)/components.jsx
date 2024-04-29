@@ -7,9 +7,11 @@ import { useShallow } from 'zustand/react/shallow';
 import Result from '@/components/Result';
 import useLabels from '@/hooks/useLabels';
 import { useStore } from '@/hooks/useStore';
+import useSettings from '@/hooks/useSettings';
 
 export default function Components() {
     const { selectedLabels, filterValues } = useLabels();
+    const { truncateLogs } = useSettings();
     const [overrideQuery, setOverrideQuery, settingsLoaded] = useStore(
         useShallow((state) => [state.overrideQuery, state.setOverrideQuery, state.settingsLoaded]),
     );
@@ -23,10 +25,15 @@ export default function Components() {
             return null;
         }
 
-        let since = null;
+        const defaultQuery = `{${filters.join(', ')}}`;
+
+        const returnQuery = {
+            query: overrideQuery || defaultQuery,
+            defaultQuery,
+        };
 
         if (filterValues.start) {
-            since = {
+            returnQuery.since = {
                 'now-1h': '1h',
                 'now-3h': '3h',
                 'now-12h': '12h',
@@ -38,13 +45,7 @@ export default function Components() {
             }[filterValues.start];
         }
 
-        const defaultQuery = `{${filters.join(', ')}}`;
-
-        return {
-            query: overrideQuery || defaultQuery,
-            defaultQuery,
-            since,
-        };
+        return returnQuery;
     }, [selectedLabels, filterValues, overrideQuery]);
 
     useMemo(() => {
@@ -72,7 +73,7 @@ export default function Components() {
 
             return data?.data;
         },
-        enabled: !!filterValues.start && !!query?.query,
+        enabled: !!query?.query, // !!filterValues.start &&
         refetchInterval: 15 * 1000,
         refetchIntervalInBackground: false,
     });
@@ -106,13 +107,13 @@ export default function Components() {
         return null;
     }
 
-    if (!filterValues.start) {
-        return (
-            <div className="flex justify-center items-center min-h-[16rem]">
-                Select a date rang from the &apos;start&apos; dropdown.
-            </div>
-        );
-    }
+    // if (!filterValues.start) {
+    //     return (
+    //         <div className="flex justify-center items-center min-h-[16rem]">
+    //             Select a date rang from the &apos;start&apos; dropdown.
+    //         </div>
+    //     );
+    // }
 
     if (!query) {
         return (
@@ -172,7 +173,7 @@ export default function Components() {
                 </div>
             )}
 
-            <div className="p-4">
+            <div className={classNames('p-4', truncateLogs ? 'max-w-full truncate' : '')}>
                 {resultValues?.length > 0 && (
                     <Result rows={resultValues} />
                 )}

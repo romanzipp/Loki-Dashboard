@@ -112,26 +112,31 @@ function Result({ rows }) {
     }, [rows, config]);
 
     return (
-        <table className="w-full">
-            <thead className="text-sm uppercase font-medium bg-gray-100 dark:bg-gray-800">
-                <tr>
-                    <Th>Timestamp</Th>
-                    <Th>Level</Th>
-                    <Th>Labels</Th>
-                    <Th>Message</Th>
-                </tr>
-            </thead>
-            <tbody className="text-xs">
-                {computedRows.map((row) => (
-                    <Fragment key={row.key}>
-                        <ResultRow
-                            row={row}
-                            truncate={truncateLogs}
-                        />
-                    </Fragment>
-                ))}
-            </tbody>
-        </table>
+        <>
+            <table className="w-full">
+                <thead className="text-sm uppercase font-medium bg-gray-100 dark:bg-gray-800">
+                    <tr>
+                        <Th>Timestamp</Th>
+                        <Th>Level</Th>
+                        <Th>Labels</Th>
+                        <Th>Message</Th>
+                    </tr>
+                </thead>
+                <tbody className="text-xs">
+                    {computedRows.map((row) => (
+                        <Fragment key={row.key}>
+                            <ResultRow
+                                row={row}
+                                truncate={truncateLogs}
+                            />
+                        </Fragment>
+                    ))}
+                </tbody>
+            </table>
+            <div className="text-center">
+                asd
+            </div>
+        </>
     );
 }
 

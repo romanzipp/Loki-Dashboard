@@ -13,6 +13,7 @@ An alternative **Dashboard** Frontend and **Logs Browser** for [Grafana Loki](ht
 - Parsing of **exceptions** & additonal data
 - Customizable UI
 - Deploy as **Docker** container
+- Override query build with **custom expression**
 - Dark mode
 
 ## Setup

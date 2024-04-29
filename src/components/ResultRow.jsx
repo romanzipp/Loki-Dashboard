@@ -97,7 +97,7 @@ function ResultRow({ row, truncate = false }) {
                             clipRule="evenodd"
                         />
                     </svg>
-                    <span className={truncate ? 'whitespace-nowrap' : ''}>
+                    <span className={truncate ? 'truncate' : 'whitespace-normal'}>
                         {row.data.message}
                     </span>
                 </div>
