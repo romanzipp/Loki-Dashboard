@@ -72,7 +72,7 @@ export default function Components() {
 
             return data?.data;
         },
-        enabled: !!filterValues.start && query !== null,
+        enabled: !!filterValues.start && !!query.query,
         refetchInterval: 15 * 1000,
         refetchIntervalInBackground: false,
     });
@@ -96,7 +96,10 @@ export default function Components() {
 
     function onOverrideReset() {
         setOverrideQuery(null);
-        overrideInput.current.value = query.defaultQuery;
+
+        if (overrideInput.current) {
+            overrideInput.current.value = query.defaultQuery;
+        }
     }
 
     if (!settingsLoaded) {

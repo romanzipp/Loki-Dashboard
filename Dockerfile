@@ -17,11 +17,11 @@ RUN npm install
 
 # Build application
 
-RUN npm run build
+RUN PRODUCTION=false npm run build
 
 # Remove dev dependencies
 
-RUN npm install --omit=dev
+#RUN npm install --omit=dev
 
 # Export port & start server
 
