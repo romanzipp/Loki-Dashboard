@@ -31,22 +31,22 @@ const levelClassNameMap = {
     },
     400: {
         levels: ['error', 'err'],
-        textClassName: 'bg-white px-2 py-[px] text-red-500',
+        textClassName: 'bg-red-500 text-white',
         bgClassName: 'bg-orange-600',
     },
     500: {
         levels: ['critical'],
-        textClassName: 'bg-white px-2 py-[px] text-red-500',
+        textClassName: 'bg-red-500 text-white',
         bgClassName: 'bg-red-600',
     },
     550: {
         levels: ['alert'],
-        textClassName: 'bg-white px-2 py-[px] text-red-500',
+        textClassName: 'bg-red-500 text-white',
         bgClassName: 'bg-red-600',
     },
     600: {
         levels: ['emergency'],
-        textClassName: 'bg-white px-2 py-[px] text-red-500',
+        textClassName: 'bg-red-500 text-white',
         bgClassName: 'bg-red-600',
     },
 };
