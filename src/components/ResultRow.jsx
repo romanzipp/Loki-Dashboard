@@ -63,7 +63,7 @@ function ResultRow({ row, truncate = false }) {
                 collapse
                 title={row.data.level}
             >
-                <span className={classNames(row.hasBackground ? '' : row.classNameMap.textClassName), 'px-2 py-[px]'}>
+                <span className={classNames(row.hasBackground ? '' : row.classNameMap.textClassName, 'px-2 py-[px]')}>
                     {row.data.level_name}
                 </span>
             </Td>
