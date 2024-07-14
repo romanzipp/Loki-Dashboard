@@ -62,9 +62,10 @@ function ResultRow({ row, truncate = false }) {
             <Td
                 collapse
                 title={row.data.level}
-                className={row.hasBackground ? '' : row.classNameMap.textClassName}
             >
-                {row.data.level_name}
+                <span className={row.hasBackground ? '' : row.classNameMap.textClassName}>
+                    {row.data.level_name}
+                </span>
             </Td>
             <Td collapse>
                 <div className="flex gap-1">
