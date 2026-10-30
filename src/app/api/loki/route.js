@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
-    const headersList = headers();
+    const headersList = await headers();
     const { searchParams: query } = new URL(request.url);
 
     if (!headersList.has('X-Loki-Path')) {

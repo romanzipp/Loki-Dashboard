@@ -13,7 +13,7 @@ function prettifyValue(value) {
 
     try {
         return JSON.stringify(JSON.parse(value), undefined, 4);
-    } catch (err) {
+    } catch {
         return `${value}`;
     }
 }
@@ -107,7 +107,7 @@ function ResultRow({ row, truncate = false }) {
                         {expandedLabels.map((label) => (
                             <pre
                                 key={label.key}
-                                className={`relative mb-2 border-l-4 pl-2 break-words whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
+                                className={`relative mb-2 border-l-4 pl-2 wrap-break-word whitespace-pre-wrap text-xs ${label.colorClassName.border}`}
                             >
                                 <div className={`left-0 top-[50%] absolute pr-3 -translate-x-full -translate-y-1/2 ${label.colorClassName.text}`}>
                                     {label.key}
@@ -115,7 +115,7 @@ function ResultRow({ row, truncate = false }) {
                                 {label.prettyValue}
                             </pre>
                         ))}
-                        <pre className="border-l-4 pl-2 border-gray-400 whitespace-pre-wrap break-words">{JSON.stringify(row.data, undefined, 4)}</pre>
+                        <pre className="border-l-4 pl-2 border-gray-400 whitespace-pre-wrap wrap-break-word">{JSON.stringify(row.data, undefined, 4)}</pre>
                     </div>
                 )}
             </Td>

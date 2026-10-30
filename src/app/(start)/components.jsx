@@ -154,7 +154,7 @@ export default function Components() {
 
     // if (!filterValues.start) {
     //     return (
-    //         <div className="flex justify-center items-center min-h-[16rem]">
+    //         <div className="flex justify-center items-center min-h-64">
     //             Select a date rang from the &apos;start&apos; dropdown.
     //         </div>
     //     );
@@ -162,7 +162,7 @@ export default function Components() {
 
     if (!query) {
         return (
-            <div className="flex justify-center items-center min-h-[16rem]">
+            <div className="flex justify-center items-center min-h-64">
                 Select a label from the dropdowns above.
             </div>
         );
@@ -207,13 +207,13 @@ export default function Components() {
             </div>
 
             {isLoading && (
-                <div className="flex justify-center items-center min-h-[16rem]">
+                <div className="flex justify-center items-center min-h-64">
                     Loading...
                 </div>
             )}
 
             {error && (
-                <div className="flex justify-center items-center min-h-[16rem]">
+                <div className="flex justify-center items-center min-h-64">
                     {`${error}`}
                 </div>
             )}

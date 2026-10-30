@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { cn } from '@/lib/utils';
 import {
-    Command, CommandEmpty, CommandGroup, CommandInput, CommandItem,
+    Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -43,29 +43,31 @@ function LabelDropdown({ label, onSelect, overridden = false }) {
             <PopoverContent className="w-[200px] p-0">
                 <Command>
                     <CommandInput placeholder="Search value..." />
-                    <CommandEmpty>No values found.</CommandEmpty>
-                    <CommandGroup>
-                        {values.map((value) => (
-                            <CommandItem
-                                key={value}
-                                value={value}
-                                onSelect={(currentValue) => {
-                                    onSelect(label.name, currentValue);
-                                    setOpen(false);
-                                }}
-                            >
-                                <Check
-                                    className={cn(
-                                        'mr-2 h-4 w-4',
-                                        label.selected ? 'opacity-100' : 'opacity-0',
-                                    )}
-                                />
-                                <span className={value !== '*' ? 'font-mono' : ''}>
-                                    {value}
-                                </span>
-                            </CommandItem>
-                        ))}
-                    </CommandGroup>
+                    <CommandList>
+                        <CommandEmpty>No values found.</CommandEmpty>
+                        <CommandGroup>
+                            {values.map((value) => (
+                                <CommandItem
+                                    key={value}
+                                    value={value}
+                                    onSelect={(currentValue) => {
+                                        onSelect(label.name, currentValue);
+                                        setOpen(false);
+                                    }}
+                                >
+                                    <Check
+                                        className={cn(
+                                            'mr-2 h-4 w-4',
+                                            label.selected ? 'opacity-100' : 'opacity-0',
+                                        )}
+                                    />
+                                    <span className={value !== '*' ? 'font-mono' : ''}>
+                                        {value}
+                                    </span>
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
                 </Command>
             </PopoverContent>
         </Popover>

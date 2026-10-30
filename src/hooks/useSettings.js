@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/hooks/useStore';

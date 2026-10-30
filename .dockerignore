@@ -1,1 +1,5 @@
 art/
+node_modules/
+.next/
+.git/
+.env*.local
