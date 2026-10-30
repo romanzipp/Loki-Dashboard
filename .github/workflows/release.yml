@@ -38,7 +38,7 @@ jobs:
             type=raw,value=latest
 
       - name: Build container
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
